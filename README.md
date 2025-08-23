@@ -1,101 +1,143 @@
-# Lepisong
+# YouTube Playlist Manager
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A collaborative YouTube video streaming platform built with NX monorepo, Angular, and NestJS.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Project Structure
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+This is an NX monorepo containing:
 
-## Run tasks
+- **Client App** (`apps/client`): Main user-facing Angular application
+- **Admin App** (`apps/admin`): Administrative interface for managing users and premium accounts
+- **API** (`apps/api`): NestJS backend API with WebSocket support
+- **Shared Libraries** (`libs/shared`): Common types and utilities
 
-To run the dev server for your app, use:
+## Technology Stack
 
-```sh
-npx nx serve client
+- **Frontend**: Angular 20.1.0, TailwindCSS
+- **Backend**: NestJS, Prisma ORM, Socket.io
+- **Database**: PostgreSQL
+- **Monorepo**: NX Workspace
+- **Real-time**: WebSocket (Socket.io)
+- **External APIs**: YouTube Data API v3, Google OAuth
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- PostgreSQL database
+- YouTube Data API key
+- Google OAuth credentials (for premium accounts)
+
+### Installation
+
+1. Install dependencies:
+```bash
+npm install
 ```
 
-To create a production bundle:
-
-```sh
-npx nx build client
+2. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your configuration
 ```
 
-To see all available targets to run for a project, run:
-
-```sh
-npx nx show project client
+3. Set up the database:
+```bash
+npm run prisma:migrate
+npm run prisma:generate
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### Development
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Run all applications in development mode:
 
-## Add new projects
+```bash
+# Start the API server
+npm run start:api
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+# Start the client app
+npm run start:client
 
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/angular:app demo
+# Start the admin app
+npm run start:admin
 ```
 
-To generate a new library, use:
+Individual commands:
+- Client app: `http://localhost:4200`
+- Admin app: `http://localhost:4201`
+- API server: `http://localhost:3000`
 
-```sh
-npx nx g @nx/angular:lib mylib
+### Build
+
+```bash
+# Build all applications
+npm run build
+
+# Build individual apps
+npm run build:client
+npm run build:admin
+npm run build:api
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+## Features
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **User Authentication**: JWT-based authentication system
+- **YouTube Integration**: Search and play YouTube videos
+- **Shared Queue**: Real-time collaborative video queue
+- **Personal Playlists**: Create and manage personal video collections
+- **Premium Playback**: Ad-free playback through admin-managed premium accounts
+- **Real-time Sync**: WebSocket-based real-time updates
+- **Admin Panel**: User management and premium account configuration
 
-## Set up CI!
+## Database Schema
 
-### Step 1
+The application uses Prisma ORM with PostgreSQL. Key entities:
+- Users (authentication and profiles)
+- Videos (YouTube video metadata)
+- Queue Items (shared playback queue)
+- Playlists (personal video collections)
+- Premium Accounts (Google OAuth for ad-free playback)
 
-To connect to Nx Cloud, run the following command:
+## API Documentation
 
-```sh
-npx nx connect
+Once the API is running, visit `http://localhost:3000/api` for Swagger documentation.
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Run tests: `npm run test`
+4. Run linting: `npm run lint`
+5. Submit a pull request
+
+## Environment Variables
+
+Required environment variables:
+
+```env
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/youtube_playlist_manager"
+
+# JWT
+JWT_SECRET="your-jwt-secret"
+JWT_EXPIRES_IN="15m"
+JWT_REFRESH_SECRET="your-refresh-secret"
+JWT_REFRESH_EXPIRES_IN="7d"
+
+# YouTube API
+YOUTUBE_API_KEY="your-youtube-api-key"
+
+# Google OAuth
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+GOOGLE_REDIRECT_URI="http://localhost:3000/auth/google/callback"
+
+# Application
+PORT=3000
+NODE_ENV="development"
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+## License
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+MIT
