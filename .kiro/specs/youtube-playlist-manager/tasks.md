@@ -7,7 +7,7 @@
   - 필요한 패키지 설치 (NestJS, Prisma, Socket.io, TailwindCSS 등)
   - _Requirements: 모든 기술 스택 요구사항_
 
-- [ ] 2. 데이터베이스 스키마 및 Prisma 설정
+- [x] 2. 데이터베이스 스키마 및 Prisma 설정
 
   - Prisma 스키마 파일 생성 및 데이터 모델 정의
   - PostgreSQL 데이터베이스 연결 설정
