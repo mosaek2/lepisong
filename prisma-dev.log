@@ -32,3 +32,8 @@ SHADOW_DATABASE_URL="postgres://postgres:postgres@localhost:51215/template1?sslm
 
    Set the maximum number of connections to 1, connect timeout to 0 and
    idle timeout to the smallest positive value supported.
+👋 Buh Bye!
+
+   Your prisma dev server default has been closed successfully.
+
+
